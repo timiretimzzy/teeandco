@@ -1,5 +1,9 @@
 const loader=document.querySelector('.page-loader');
-if(loader){window.addEventListener('load',()=>{setTimeout(()=>loader.classList.add('loaded'),350)})}
+if(loader){
+  const hideLoader=()=>loader.classList.add('loaded');
+  window.addEventListener('load',()=>setTimeout(hideLoader,350));
+  setTimeout(hideLoader,4000);
+}
 
 const header=document.querySelector('.site-header');
 const progress=document.querySelector('.scroll-progress');
