@@ -111,8 +111,7 @@ window.addEventListener('resize',()=>{
   },150);
 });
 
-const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(!reduced){document.querySelectorAll('.magnetic').forEach(el=>{el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;el.style.transform=`translate(${x*.10}px,${y*.10}px)`});el.addEventListener('mouseleave',()=>el.style.transform='')})}
+if(!reducedMotion){document.querySelectorAll('.magnetic').forEach(el=>{el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;el.style.transform=`translate(${x*.10}px,${y*.10}px)`});el.addEventListener('mouseleave',()=>el.style.transform='')})}
 
 const yearEl=document.getElementById('year');
 if(yearEl){yearEl.textContent=new Date().getFullYear();}
