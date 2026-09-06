@@ -2,6 +2,8 @@
 
 A static, GitHub Pages-ready website for Tee & Co. Accounting | Tax | Advisory.
 
+Deployed automatically to Vercel from the `main` branch via Git integration.
+
 ## Files
 - `index.html` - premium homepage
 - `services.html` - services overview
