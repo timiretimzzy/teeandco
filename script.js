@@ -23,6 +23,94 @@ if(toggle && menu){
   }));
 }
 
+// Accordion - Who We Help
+const accordionItems=document.querySelectorAll('[data-accordion-item]');
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function getContentHeight(content){
+  const inner=content.querySelector('.accordion-inner');
+  return inner ? inner.offsetHeight : 0;
+}
+
+function openAccordion(item){
+  const trigger=item.querySelector('.accordion-trigger');
+  const content=item.querySelector('.accordion-content');
+  if(!trigger || !content) return;
+
+  // Close other items
+  accordionItems.forEach(other=>{
+    if(other !== item && other.classList.contains('open')){
+      closeAccordion(other);
+    }
+  });
+
+  item.classList.add('open');
+  trigger.setAttribute('aria-expanded','true');
+  content.setAttribute('aria-hidden','false');
+
+  if(!reducedMotion){
+    content.style.height=getContentHeight(content)+'px';
+  }else{
+    content.style.height='auto';
+  }
+}
+
+function closeAccordion(item){
+  const trigger=item.querySelector('.accordion-trigger');
+  const content=item.querySelector('.accordion-content');
+  if(!trigger || !content) return;
+
+  item.classList.remove('open');
+  trigger.setAttribute('aria-expanded','false');
+  content.setAttribute('aria-hidden','true');
+
+  if(!reducedMotion){
+    content.style.height='0';
+  }else{
+    content.style.height='auto';
+  }
+}
+
+accordionItems.forEach(item=>{
+  const trigger=item.querySelector('.accordion-trigger');
+  if(!trigger) return;
+
+  trigger.addEventListener('click',()=>{
+    const isOpen=item.classList.contains('open');
+    if(isOpen){
+      closeAccordion(item);
+    }else{
+      openAccordion(item);
+    }
+  });
+
+  // Keyboard support
+  trigger.addEventListener('keydown',(e)=>{
+    if(e.key==='Enter' || e.key===' '){
+      e.preventDefault();
+      const isOpen=item.classList.contains('open');
+      if(isOpen){
+        closeAccordion(item);
+      }else{
+        openAccordion(item);
+      }
+    }
+  });
+});
+
+// Handle window resize to update open accordion height
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{
+    document.querySelectorAll('.accordion-item.open .accordion-content').forEach(content=>{
+      if(!reducedMotion){
+        content.style.height=getContentHeight(content)+'px';
+      }
+    });
+  },150);
+});
+
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(!reduced){document.querySelectorAll('.magnetic').forEach(el=>{el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;el.style.transform=`translate(${x*.10}px,${y*.10}px)`});el.addEventListener('mouseleave',()=>el.style.transform='')})}
 
